@@ -1,6 +1,6 @@
 ---
 - hosts: "{{ target }}"
-  gather_facts: true
+  gather_facts: false
   become: true
   become_method: su
 
@@ -18,8 +18,19 @@
   vars:
     ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
 
-  roles:
-    - netbootxyz
-  vars_files:
-    - endpoints.yml
-    - user_overrides.yml
+  tasks:
+    - name: "Bootstrap pkg"
+      raw: pkg bootstrap -f -y
+      changed_when: false
+      tags: bootstrap
+
+    - name: "Update pkg database"
+      raw: pkg update -f
+      changed_when: false
+      tags: bootstrap
+
+    - name: "Install python"
+      raw: pkg install -y python3
+      register: pkg_install_output
+      changed_when: pkg_install_output.rc != 0
+      tags: bootstrap
