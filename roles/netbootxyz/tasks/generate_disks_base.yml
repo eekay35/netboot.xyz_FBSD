@@ -59,6 +59,19 @@
     state: present
   with_items: "{{ netbootxyz_packages }}"
 
+- name: Enable Nginx
+  community.general.sysrc:
+    name: "nginx_enable"
+    value: "YES"
+    path: "/etc/rc.conf"
+  when: ansible_facts['os_family'] == "FreeBSD"
+
+- name: Restart Nginx service
+  ansible.builtin.service:
+    name: nginx
+    state: restarted
+  when: ansible_facts['os_family'] == "FreeBSD"
+
 - name: Check out latest iPXE sources
   ansible.builtin.git:
     repo: "{{ ipxe_repo }}"

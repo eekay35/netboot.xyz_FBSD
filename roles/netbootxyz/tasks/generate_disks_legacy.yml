@@ -33,6 +33,12 @@
     replace: '#!/usr/local/bin/perl'
   with_items: "{{ perl_files.files }}"
 
+- name: Update linker path
+  replace:
+    path: "{{ ipxe_source_dir }}/src/Makefile"
+    regexp: '\(CROSS_COMPILE\)ld'
+    replace: '(CROSS_COMPILE)/usr/local/bin/ld'
+
 - name: Compile iPXE bootloader for Legacy BIOS
   ansible.builtin.shell: |
     gmake clean
