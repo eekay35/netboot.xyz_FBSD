@@ -26,8 +26,8 @@
 
 - name: Compile iPXE bootloader for EFI
   ansible.builtin.shell: |
-    make clean
-    make -j{{ make_num_jobs }} \
+    gmake clean
+    gmake -j{{ make_num_jobs }} \
          EMBED={{ bootloader_filename }} \
          TRUST={{ trust_files }} \
          bin-x86_64-efi/ipxe.efi \
@@ -39,8 +39,8 @@
 
 - name: Compile iPXE bootloader for EFI with debug flags
   ansible.builtin.shell: |
-    make clean
-    make -j{{ make_num_jobs }} \
+    gmake clean
+    gmake -j{{ make_num_jobs }} \
          EMBED={{ bootloader_filename }} \
          DEBUG={{ ipxe_debug_options }} \
          TRUST={{ trust_files }} \
@@ -77,7 +77,7 @@
 
 - name: Compile iPXE legacy-driver bootloader for EFI
   ansible.builtin.shell: |
-    make -j{{ make_num_jobs }} \
+    gmake -j{{ make_num_jobs }} \
          EMBED={{ bootloader_filename }} \
          TRUST={{ trust_files }} \
          bin-x86_64-efi/ipxe-legacy.efi
@@ -89,7 +89,7 @@
 
 - name: Compile iPXE legacy-driver bootloader for EFI with debug flags
   ansible.builtin.shell: |
-    make -j{{ make_num_jobs }} \
+    gmake -j{{ make_num_jobs }} \
          EMBED={{ bootloader_filename }} \
          DEBUG={{ ipxe_debug_options }} \
          TRUST={{ trust_files }} \

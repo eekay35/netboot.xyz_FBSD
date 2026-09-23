@@ -1,0 +1,12 @@
+---
+netbootxyz_packages:
+  - cdrkit-genisoimage
+  - figlet
+  - gcc
+  - git-tiny
+  - gmake
+  - libslirp
+  - linux-c7-dosfstools
+  - minizip
+  - nginx
+  - syslinux

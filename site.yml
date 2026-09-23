@@ -1,6 +1,20 @@
 ---
-- hosts: localhost
-  user: root
+- hosts: "{{ target }}"
+  gather_facts: true
+  become: true
+  become_method: su
+
+  vars_prompt:
+    - name: ansible_ssh_user
+      prompt: "Enter SSH username"
+      private: false
+    - name: ansible_ssh_pass
+      prompt: "\nEnter SSH password\nIf you're using keys, leave this empty"
+      private: true
+    - name: ansible_become_pass
+      prompt: "\nEnter root/su password"
+      private: true
+
   roles:
     - netbootxyz
   vars_files:

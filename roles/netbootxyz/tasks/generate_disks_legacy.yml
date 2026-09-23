@@ -20,10 +20,23 @@
     trust_files: "{{ cert_dir }}/{{ ipxe_ca_filename }},{{ cert_dir }}/{{ cert_file_filename }}"
   when: generate_signatures | bool
 
+- name: Find all of the Perl files
+  find:
+    paths: "{{ ipxe_source_dir }}/src/util/"
+    patterns: "*.pl"
+  register: perl_files
+
+- name: Replace perl path in Perl files
+  replace:
+    path: "{{ item.path }}"
+    regexp: '#!/usr/bin/perl'
+    replace: '#!/usr/local/bin/perl'
+  with_items: "{{ perl_files.files }}"
+
 - name: Compile iPXE bootloader for Legacy BIOS
   ansible.builtin.shell: |
-    make clean
-    make -j{{ make_num_jobs }} \
+    gmake clean
+    gmake -j{{ make_num_jobs }} \
          EMBED={{ bootloader_filename }} \
          TRUST={{ trust_files }} \
          bin/ipxe.dsk \
@@ -37,8 +50,8 @@
 
 - name: Compile iPXE bootloader for Legacy BIOS with debug flags
   ansible.builtin.shell: |
-    make clean
-    make -j{{ make_num_jobs }} \
+    gmake clean
+    gmake -j{{ make_num_jobs }} \
          EMBED={{ bootloader_filename }} \
          DEBUG={{ ipxe_debug_options }} \
          TRUST={{ trust_files }} \
@@ -70,7 +83,7 @@
 
 - name: Compile iPXE legacy-driver bootloader for Legacy BIOS
   ansible.builtin.shell: |
-    make -j{{ make_num_jobs }} \
+    gmake -j{{ make_num_jobs }} \
          EMBED={{ bootloader_filename }} \
          TRUST={{ trust_files }} \
          bin/ipxe-legacy.dsk \
@@ -85,7 +98,7 @@
 
 - name: Compile iPXE legacy-driver bootloader for Legacy BIOS with debug flags
   ansible.builtin.shell: |
-    make -j{{ make_num_jobs }} \
+    gmake -j{{ make_num_jobs }} \
          EMBED={{ bootloader_filename }} \
          DEBUG={{ ipxe_debug_options }} \
          TRUST={{ trust_files }} \

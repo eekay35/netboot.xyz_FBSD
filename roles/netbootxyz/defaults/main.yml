@@ -143,7 +143,7 @@ bootloaders:
     ipxe_bin: ipxe-legacy.efi
     output_bin: -legacy.efi
     type: DHCP
-cert_dir: /etc/netbootxyz/certs
+cert_dir: /usr/local/etc/netbootxyz/certs
 cert_file_filename: ca-netboot-xyz.crt
 checksums_filename: '{{ site_name }}-sha256-checksums.txt'
 codesign_cert_filename: codesign.crt
@@ -177,17 +177,17 @@ ipxe_repo: https://github.com/ipxe/ipxe
 ipxe_secureboot_archive_url: https://github.com/ipxe/ipxe/releases/download/{{ ipxe_secureboot_version
   }}/ipxeboot.tar.gz
 ipxe_secureboot_version: v2.0.0
-ipxe_source_dir: /usr/src/ipxe
+ipxe_source_dir: /usr/local/share/ipxe
 kernel_params: initrd=initrd.magic ${cmdline}
 live_endpoint: https://github.com/netbootxyz
 make_num_jobs: 1
 memdisk_location: http://${boot_domain}/memdisk
-netbootxyz_conf_dir: /etc/netbootxyz
-netbootxyz_root: /var/www/html
+netbootxyz_conf_dir: /usr/local/etc/netbootxyz
+netbootxyz_root: /usr/local/www/nginx
 pciids_url: https://raw.githubusercontent.com/netbootxyz/pciids/master/pciids.ipxe
 pipxe_branch: master
 pipxe_repo: https://github.com/netbootxyz/pipxe
-pipxe_source_dir: /usr/src/pipxe
+pipxe_source_dir: /usr/local/share/pipxe
 releases:
   almalinux:
     base_dir: almalinux

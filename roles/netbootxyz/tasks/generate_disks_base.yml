@@ -43,6 +43,16 @@
   with_items:
     - memdisk
 
+- name: Enable Linux compatibility
+  community.general.sysrc:
+    name: "linux_enable"
+    value: "YES"
+    path: "/etc/rc.conf"
+
+- name: Load Linux kernel modules
+  ansible.builtin.command: kldload linux linux64
+  ignore_errors: true
+
 - name: Install required packages
   ansible.builtin.package:
     name: "{{ item }}"
